@@ -131,10 +131,39 @@ where to_char(r1.DateReserv,'DD/MM/YYYY') = to_char(r2.DateReserv,'DD/MM/YYYY')
 and r1.Id < r2.Id;
 
 
-
+--TP4
 --1 les client n'ayant fait aucune reservation aucun voyage
 select id, Nom, Prenom
 from CLIENTS
 where id not in (select id from RESERVATIONS);
 
+--ou 
 
+select id, Nom, Prenom
+from CLIENTS 
+where not exists (select *
+                  from RESERVATIONS 
+                  where RESERVATIONS.id = CLIENTS.id);
+
+--2 trouver kes voyages n'ayant aucune reservation
+select Code, VilleDepart, VilleArrivee
+from VOYAGES
+where Code not in (select Code from RESERVATIONS);
+
+--ou 
+select Code, VilleDepart, VilleArrivee
+from VOYAGES 
+where not exists (select *
+                  from RESERVATIONS 
+                  where RESERVATIONS.Code = VOYAGES.Code);   
+
+--3 3. Trouver les noms des clients ayant r´eserv´e seulement un voyage (une seule r´eservation)
+--3 
+select id, nom
+from RESERVATIONS natural join Clients
+where id not in( 
+select r1.id
+from RESERVATIONS r1, RESERVATIONS r2 
+where r1.Id = r2.Id 
+and (r1.Code < r2.Code or  r1.DateReserv != r2.DateReserv)
+);
