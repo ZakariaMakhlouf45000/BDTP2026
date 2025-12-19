@@ -167,3 +167,41 @@ from RESERVATIONS r1, RESERVATIONS r2
 where r1.Id = r2.Id 
 and (r1.Code < r2.Code or  r1.DateReserv != r2.DateReserv)
 );
+
+--4 
+select Code
+from Voyages
+where prix >=  ALL (
+    select prix
+    from Voyages
+);
+
+-- 5 
+select Code
+from Voyages
+where prix <=  ALL (
+    select prix
+    from Voyages
+);
+
+--6 
+select code, VilleArrivee, VilleDepart, prix
+from voyages v1
+where exists (
+    select *
+    from Voyages v2
+    where v1.VilleArrivee = v2.VilleArrivee
+    and v1.VilleDepart = v2.VilleDepart
+    and v1.code != v2.code 
+);
+
+--7
+select code, VilleArrivee, VilleDepart, prix
+from voyages v1
+where not exists (
+    select *
+    from Voyages v2
+    where v1.VilleArrivee = v2.VilleArrivee
+    and v1.VilleDepart = v2.VilleDepart
+    and v1.code ! = v2.code 
+);
