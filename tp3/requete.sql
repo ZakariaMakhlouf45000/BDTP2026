@@ -119,6 +119,7 @@ and r1.Code < r2.Code;
 select Id 
 from RESERVATIONS
 minus 
+select r1.Id
 from RESERVATIONS r1, RESERVATIONS r2 
 where r1.Id = r2.Id 
 and r1.Code < r2.Code;
@@ -129,5 +130,11 @@ from RESERVATIONS r1, RESERVATIONS r2
 where to_char(r1.DateReserv,'DD/MM/YYYY') = to_char(r2.DateReserv,'DD/MM/YYYY')
 and r1.Id < r2.Id;
 
+
+
+--1 les client n'ayant fait aucune reservation aucun voyage
+select id, Nom, Prenom
+from CLIENTS
+where id not in (select id from RESERVATIONS);
 
 
