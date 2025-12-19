@@ -110,3 +110,24 @@ from  voyages v1 ,Voyages v2
 where v1.Prix = v2.Prix  and v1.code < v2.code;
 
 --18
+select r1.Id , r1.Code, r2.Code 
+from RESERVATIONS r1, RESERVATIONS r2 
+where r1.Id = r2.Id 
+and r1.Code < r2.Code;
+
+--19 
+select Id 
+from RESERVATIONS
+minus 
+from RESERVATIONS r1, RESERVATIONS r2 
+where r1.Id = r2.Id 
+and r1.Code < r2.Code;
+
+--20 couple de client ayant fait des reservation le meme jour 
+select distinct r1.Id, r2.Id , to_char(r1.DateReserv,'DD/MM/YYYY') as jourReservation, r1.Code, r2.Code
+from RESERVATIONS r1, RESERVATIONS r2
+where to_char(r1.DateReserv,'DD/MM/YYYY') = to_char(r2.DateReserv,'DD/MM/YYYY')
+and r1.Id < r2.Id;
+
+
+
